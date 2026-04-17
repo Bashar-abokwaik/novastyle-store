@@ -1,0 +1,205 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #3b5b81;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* LOGO */
+.logo a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* DESKTOP LINKS */
+.navLinks {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.navLink {
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.navLink:hover {
+  color: #c07e2b;
+}
+
+.active {
+  color: #c07e2b;
+  font-weight: bold;
+}
+
+/* RIGHT SIDE */
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cart {
+  position: relative;
+  color: white;
+  text-decoration: none;
+}
+
+.cartCount {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #c07e2b;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 11px;
+}
+
+.themeToggle {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.authBtn {
+  padding: 6px 12px;
+  background: #c07e2b;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+}
+
+/* HAMBURGER */
+.hamburger {
+  display: none;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.hamburger:hover {
+  transform: scale(1.1);
+}
+
+/* MOBILE MENU */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+}
+
+
+.mobileMenu {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+
+  background: #3b5b81;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+
+  z-index: 1000;
+
+  /* Shadow 🔥 */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+  /* Animation */
+  animation: slideDown 0.3s ease;
+}
+
+/* Animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -15px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+
+.mobileMenu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.mobileMenu li {
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobileMenu li:last-child {
+  border-bottom: none;
+  margin-top: 10px;
+}
+
+.mobileMenu a {
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
+  transition: 0.25s;
+}
+
+.mobileMenu a:hover {
+  color: #c07e2b;
+  padding-left: 6px;
+}
+
+.mobileMenu .authBtn {
+  margin-top: 10px;
+  display: block;
+  text-align: center;
+
+  background: #c07e2b;
+  padding: 10px;
+  border-radius: 8px;
+
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.mobileMenu .authBtn:hover {
+  background: #a96b22;
+  transform: scale(1.02);
+}
+
+.mobileMenu .active {
+  color: #c07e2b;
+  padding-left: 5px;
+}
+
+@media (max-width: 768px) {
+  .navLinks {
+    display: none;
+  }
+
+  .authBtn {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}

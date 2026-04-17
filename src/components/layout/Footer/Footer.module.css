@@ -1,0 +1,56 @@
+.footer {
+  background-color: #3b5b81;
+  color: white;
+  padding-top: 40px;
+  padding-bottom: 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: #c07e2b;
+  margin-bottom: 12px;
+}
+
+.linkList {
+  list-style: none;
+  padding: 0;
+}
+
+.linkItem {
+  margin-bottom: 6px;
+}
+
+.link {
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.link:hover {
+  color: #c07e2b;
+}
+
+.socialList {
+  display: flex;
+  gap: 16px;
+}
+
+.bottom {
+  margin-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 10px;
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.8;
+}
