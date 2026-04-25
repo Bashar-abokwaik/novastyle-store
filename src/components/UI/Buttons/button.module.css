@@ -1,0 +1,66 @@
+/* BASE BUTTON */
+.btn {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  letter-spacing: 0.3px;
+}
+
+/* PRIMARY - brand color */
+.primary {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(59, 91, 129, 0.25);
+}
+
+.primary:hover {
+  background: #2c4666;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 91, 129, 0.35);
+}
+
+/* SECONDARY - soft neutral */
+.secondary {
+  background: var(--secondary);
+  color: #ffffff;
+  border: 1px solid var(--secondary);
+}
+
+.secondary:hover {
+  background: #a96b22;
+  transform: translateY(-2px);
+}
+
+/* DISABLED STATE */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+  .btn {
+    width: 100%;
+    padding: 8px 14px;
+    font-size: 12px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 470px) {
+  .btn {
+    width: 100%;
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+}

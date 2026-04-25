@@ -1,0 +1,169 @@
+/* =========================
+   PRODUCTS PAGE
+========================= */
+
+.products {
+  min-height: 100vh;
+  padding: 24px;
+  background-color: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.productsTitle {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+}
+
+.noProducts {
+  text-align: center;
+  font-size: 18px;
+  color: var(--text);
+  margin-top: 50px;
+}
+
+/* =========================
+   CONTROLS (FIXED RESPONSIVE)
+========================= */
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  background: var(--bg2);
+  padding: 12px;
+  border-radius: 12px;
+}
+
+/* inputs */
+.searchInput {
+  flex: 1;
+  min-width: 180px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  outline: none;
+  transition: 0.2s;
+}
+
+.searchInput:focus {
+  border-color: var(--secondary);
+}
+
+/* selects */
+.filterSelect {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  background: white;
+  min-width: 150px;
+  cursor: pointer;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.productsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+/* =========================
+   CARD (IMPROVED)
+========================= */
+
+.card {
+  background: var(--bg2);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.12);
+}
+
+.card img {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.05);
+}
+
+.cardBody {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cardActions {
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.price {
+  font-weight: bold;
+  color: var(--secondary);
+}
+
+
+/* =========================
+   RESPONSIVE FIXES
+========================= */
+
+/* tablet */
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchInput,
+  .filterSelect {
+    width: 100%;
+  }
+}
+
+/* mobile */
+@media (max-width: 480px) {
+  .products {
+    padding: 16px;
+  }
+
+  .productsList {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .card img {
+    height: 150px;
+  }
+
+  .cardBody {
+    padding: 10px;
+  }
+
+  .price {
+    font-size: 14px;
+  }
+
+  .cardActions {
+    flex-direction: column;
+  }
+}

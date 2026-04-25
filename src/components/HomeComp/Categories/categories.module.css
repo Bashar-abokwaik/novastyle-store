@@ -1,0 +1,99 @@
+.categoryLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.categories {
+  padding: 40px 20px;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.categoriesTitle {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+}
+
+.categoriesContainer {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* CARD */
+.categoryCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.categoryCard:hover {
+  transform: translateY(-5px);
+}
+
+/* IMAGE CIRCLE */
+.cardImgTop {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--secondary);
+  transition: 0.3s ease;
+}
+
+.categoryCard:hover .cardImgTop {
+  transform: scale(1.05);
+}
+
+/* TEXT */
+.cardBody {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .categoriesContainer {
+    gap: 15px;
+  }
+
+  .cardImgTop {
+    width: 120px;
+    height: 120px;
+  }
+
+  .cardTitle {
+    font-size: 14px;
+  }
+}
+@media (max-width: 480px) {
+  .categories {
+    padding: 30px 15px;
+  }
+
+  .categoriesTitle {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .cardImgTop {
+    width: 70px;
+    height: 70px;
+  }
+
+  .cardTitle {
+    font-size: 12px;
+  }
+}
