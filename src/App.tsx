@@ -9,6 +9,7 @@ import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import NotFound from "./pages/NotFound/NotFound";
 import Products from "./pages/Products/Products";
 import ProductDetails from "./pages/Products/ProductDetails";
+import ContactPage from "./pages/ContactPage";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "offers/:productId",
         element: <ProductDetails />,
+      },
+      {
+        path: "contact",
+        element: <ContactPage />,
       },
     ],
   },
