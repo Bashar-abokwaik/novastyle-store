@@ -43,3 +43,10 @@ export type FooterLinks = {
   support: string[];
   social: string[];
 }
+
+// ===== CAROUSEL =====
+export type CarouselProps = {
+  images: {
+    link: string | undefined; id: number; src: string 
+}[];
+};

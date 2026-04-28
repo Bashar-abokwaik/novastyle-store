@@ -10,7 +10,6 @@
   z-index: 1000;
 }
 
-/* LOGO */
 .logo a {
   color: white;
   text-decoration: none;
@@ -18,7 +17,6 @@
   font-weight: bold;
 }
 
-/* DESKTOP LINKS */
 .navLinks {
   display: flex;
   gap: 1.5rem;
@@ -104,7 +102,6 @@
   z-index: 999;
 }
 
-
 .mobileMenu {
   position: fixed;
   top: 70px;
@@ -112,17 +109,11 @@
   transform: translateX(-50%);
   width: 90%;
   max-width: 400px;
-
   background: #3b5b81;
   border-radius: 12px;
   padding: 1rem 1.5rem;
-
   z-index: 1000;
-
-  /* Shadow 🔥 */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-
-  /* Animation */
   animation: slideDown 0.3s ease;
 }
 
@@ -137,7 +128,6 @@
     transform: translate(-50%, 0);
   }
 }
-
 
 .mobileMenu ul {
   list-style: none;

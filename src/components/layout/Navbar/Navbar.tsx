@@ -12,17 +12,20 @@ import type { RootState } from "../../../app/store";
 
 import styles from "./Navbar.module.css";
 
+// Cart Icon Component
 const CartIcon = () => <FaShoppingBag size={22} className={styles.cartIcon} />;
 
+// Function to determine the class for NavLink based on active state
 const navLinkClass = ({ isActive }: { isActive: boolean }) => {
   return isActive ? `${styles.navLink} ${styles.active}` : styles.navLink;
 };
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const dispatch = useDispatch();
-  const mode = useSelector((state: RootState) => state.theme.mode);
+  const [menuOpen, setMenuOpen] = useState(false); // State to track mobile menu open/close
+  const dispatch = useDispatch(); // Redux dispatch function
+  const mode = useSelector((state: RootState) => state.theme.mode); // Get current theme mode from Redux store
 
+  // Function to toggle the mobile menu
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
   };
@@ -69,6 +72,7 @@ export default function Navbar() {
           <NavLink to="/login" className={styles.authBtn}>
             Login/Sign Up
           </NavLink>
+
           {/* HAMBURGER */}
           <button className={styles.hamburger} onClick={toggleMenu}>
             <FaBars size={22} />

@@ -6,20 +6,23 @@
 
 :root {
   --bg: #ffffff;
+  --bg2: #f5f5f5;
   --text: #000000;
-  --primary: #c07e2b;
-  --secondary: #3b5b81;
+  --primary: #3b5b81;
+  --secondary: #c07e2b;
 }
 
 [data-theme="dark"] {
   --bg: #121212;
+  --bg2: #1f1f1f;
   --text: #ffffff;
-  --primary: #c07e2b;
-  --secondary: #3b5b81;
+  --primary: #3b5b81;
+  --secondary: #c07e2b;
+  --textSecondary: #cccccc;
 }
 
 body {
   background-color: var(--bg);
   color: var(--text);
+  font-family: "Geist Sans", Arial, Helvetica, sans-serif;
 }
-
