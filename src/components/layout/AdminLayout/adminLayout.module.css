@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.content {
+  flex: 1;
+  padding: 30px;
+  min-width: 0;
+}

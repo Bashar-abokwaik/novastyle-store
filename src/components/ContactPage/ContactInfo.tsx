@@ -1,5 +1,6 @@
 import styles from "./contact.module.css";
 
+// Define the ContactInfo component, which displays contact information such as email, phone number, response time, and location.
 export default function ContactInfo() {
   return (
     <div className={styles.contactInfo}>

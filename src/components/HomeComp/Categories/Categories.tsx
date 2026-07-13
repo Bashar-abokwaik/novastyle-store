@@ -1,37 +1,43 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { categoriesService } from "../../../services/categoriesService";
 
 import CategoryCard from "./CategoryCard";
+import CategoryPH from "../../UI/Placeholder/CategoryPH";
 import styles from "./categories.module.css";
+import type { Category } from "../../../types";
 
-import type { categoryTemplate } from "../../../services/mock/categories.mock";
+// Define the structure of the response expected from the categories API
+interface CategoryResponse {
+  message: string;
+  categories: Category[];
+}
 
 export default function Categories() {
-  const [categories, setCategories] = useState<categoryTemplate[]>([]);
-
-  const fetchCategories = async () => {
-    try {
-      const data = await categoriesService.getAll();
-      setCategories(data as categoryTemplate[]);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
-  };
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchCategories();
-  }, []);
+  // Use React Query to fetch categories data from the API
+  const {
+    data: categoriesResponse,
+    error,
+    isLoading,
+  } = useQuery<CategoryResponse, Error>({
+    queryKey: ["categories"],
+    queryFn: async (): Promise<CategoryResponse> =>
+      (await categoriesService.getAll()) as CategoryResponse,
+  });
 
   return (
-    <div className={styles.categories}>
+    <section className={styles.categories}>
       <h2 className={styles.categoriesTitle}>Categories</h2>
-
+      {error && <p>{error.message}</p>}
       <div className={styles.categoriesContainer}>
-        {categories.map((category) => (
-          <CategoryCard key={category.id} category={category} />
-        ))}
+        {isLoading &&
+          Array.from({ length: 7 }).map((_, i) => (
+            <CategoryPH key={`placeholder-${i}`} />
+          ))}
+        {!isLoading &&
+          categoriesResponse?.categories?.map((category) => (
+            <CategoryCard key={category._id as React.Key} category={category} />
+          ))}
       </div>
-    </div>
+    </section>
   );
 }

@@ -75,6 +75,12 @@
   color: white;
   text-decoration: none;
 }
+.authBtn:hover {
+  background: #a96b22;
+  transform: scale(1.01);
+  transition: 0.2s;
+
+}
 
 /* HAMBURGER */
 .hamburger {
@@ -178,6 +184,78 @@
 .mobileMenu .active {
   color: #c07e2b;
   padding-left: 5px;
+}
+
+.userMenuWrapper {
+  position: relative;
+}
+
+.userMenuBtn {
+  border: none;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: 0.2s;
+}
+
+.userMenuBtn:hover {
+  transform: scale(1.05);
+}
+
+.userDropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  min-width: 220px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  animation: dropdown 0.2s ease;
+}
+
+.userDropdown a,
+.userDropdown button {
+  display: block;
+  width: 100%;
+  padding: 14px 18px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: #222;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.userDropdown a:hover{
+  background: var(--primary);
+  color: white;
+}
+
+.userDropdown button:hover {
+  background: var(--secondary);
+  color: white;
+}
+
+.userDropdown button {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+@keyframes dropdown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 768px) {

@@ -6,11 +6,9 @@
 .contactPage {
   min-height: 100vh;
   padding: 70px 20px;
-
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 40px;
-
   background: radial-gradient(circle at top, var(--bg2), var(--bg));
 }
 
@@ -30,7 +28,7 @@
 }
 .contactFormContainer .contactDescription {
     font-size: 16px;
-    color: var(--textSecondary);
+    color: var(--text);
 }
 
 /* =========================
@@ -78,7 +76,7 @@
 .formLabel {
   font-size: 13px;
   font-weight: 600;
-  color: var(--textSecondary);
+  color: var(--text);
 }
 
 .nameInput,
@@ -197,7 +195,7 @@
 
 .infoLabel {
   font-size: 12px;
-  color: var(--textSecondary);
+  color: var(--text);
 }
 
 .infoValue {

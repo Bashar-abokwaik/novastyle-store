@@ -1,4 +1,4 @@
-import type { productTemplate } from "../../services/mock/products.mock";
+import type { productTemplate } from "../../types/index";
 import OffersCard from "../HomeComp/Offers/OffersCard";
 import ProductCard from "./ProductCard";
 import styles from "./products.module.css";
@@ -12,14 +12,17 @@ export default function ProductsList({
 }) {
   return (
     <div className={styles.productsList}>
-      {products.length === 0 && <p className={styles.noProducts}>No products found.</p>}
-      {showDiscount
-        ? products.map((product) => (
-            <OffersCard key={product.id} product={product} />
-          ))
-        : products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+      {products.length === 0 && (
+        <p className={styles.noProducts}>No products found.</p>
+      )}
+      {showDiscount &&
+        products.map((product) => (
+          <OffersCard key={product._id as React.Key} product={product} />
+        ))}
+      {!showDiscount &&
+        products.map((product) => (
+          <ProductCard key={product._id as React.Key} product={product} />
+        ))}
     </div>
   );
 }

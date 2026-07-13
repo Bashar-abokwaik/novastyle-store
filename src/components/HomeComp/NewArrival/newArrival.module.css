@@ -1,8 +1,8 @@
 /* SECTION WRAPPER */
 .section {
   padding: 50px 20px;
-  background-color: var(--primary);
-  border-radius: 200px;
+  background-color: var(--bg3);
+  border-radius: 120px;
 }
 
 /* TITLE */
@@ -64,7 +64,7 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  background: #c07e2b;
+  background: var(--secondary);
   color: white;
   font-size: 12px;
   padding: 5px 10px;
@@ -98,6 +98,15 @@
   display: flex;
   gap: 10px;
   margin-top: 10px;
+}
+
+/* PLACEHOLDER */
+.loadingContainer {
+  display: flex;
+  gap: 22px;
+  min-width: 1000px;
+  /* max-width: 1200px; */
+  margin: 0 auto;
 }
 
 /* VIEW ALL BUTTON */

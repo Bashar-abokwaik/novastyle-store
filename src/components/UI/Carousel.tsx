@@ -1,5 +1,8 @@
 import type { CarouselProps } from "../../types";
 
+// Carousel component that displays a series of images with navigation controls
+// The component uses Bootstrap's carousel classes for styling and functionality.
+
 export default function Carousel({ images }: CarouselProps) {
   return (
     <div
@@ -10,7 +13,7 @@ export default function Carousel({ images }: CarouselProps) {
       <div className="carousel-indicators">
         {images.map((img, index) => (
           <button
-            key={img.id}
+            key={img._id}
             type="button"
             data-bs-target="#carouselExampleIndicators"
             data-bs-slide-to={index}
@@ -23,14 +26,14 @@ export default function Carousel({ images }: CarouselProps) {
       <div className="carousel-inner">
         {images.map((img, index) => (
           <div
-            key={img.id}
+            key={img._id}
             className={`carousel-item ${index === 0 ? "active" : ""}`}
           >
             <a href={img.link}>
               <img
                 src={img.src}
                 className="d-block w-100 mx-auto rounded"
-                alt={`Slide ${img.id}`}
+                alt={`Slide ${img._id}`}
                 style={{
                   maxWidth: "90%",
                   maxHeight: "600px",

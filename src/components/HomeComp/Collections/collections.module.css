@@ -7,14 +7,18 @@
   font-size: 28px;
   font-weight: 700;
   margin-bottom: 30px;
-  color: var(--primary);
+  color: var(--secondary);
   letter-spacing: 0.5px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
 }
 
 .card {
@@ -23,6 +27,7 @@
   border-radius: 14px;
   overflow: hidden;
   cursor: pointer;
+  flex: 1 1 260px;
 }
 
 .card img {
