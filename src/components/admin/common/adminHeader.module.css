@@ -1,0 +1,35 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  background: var(--bg3);
+  padding: 20px;
+  border-radius: 18px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--text);
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text);
+  margin-top: 4px;
+}
+
+.button {
+  background: var(--primary);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.button:hover {
+  transform: scale(1.05);
+}

@@ -1,0 +1,96 @@
+.placeholder {
+  position: relative;
+}
+
+.placeholder::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
+  cursor:progress;
+}
+
+.card {
+  background: var(--bg2);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+}
+
+.cardBody {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.categoryCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.categoryImageWrapper {
+  width: 180px;
+  height: 180px;
+}
+
+.collectionCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.collectionImageWrapper {
+  width: 100%;
+  height: 200px;
+}
+
+
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+  }
+
+  .imageWrapper {
+    height: 200px;
+  }
+  .categoryImageWrapper {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 100%;
+  }
+
+  .imageWrapper {
+    height: 180px;
+  }
+
+  .categoryImageWrapper {
+    width: 70px;
+    height: 70px;
+  }
+}

@@ -1,0 +1,206 @@
+.dashboard {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.title {
+  font-size: 28px;
+  color: var(--text2);
+}
+
+/* ===== Stats Cards ===== */
+
+.cards {
+  display: flex;
+  gap: 20px;
+}
+
+.card {
+  flex: 1;
+  background: var(--bg2);
+  color: var(--text);
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.card p {
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--text2);
+}
+
+/* ===== Sections ===== */
+
+.section {
+  background: var(--bg2);
+  padding: 20px;
+  border-radius: 12px;
+  color: var(--text);
+}
+
+.section h2 {
+  margin-bottom: 20px;
+  color: var(--text2);
+}
+
+/* ===== Open Orders ===== */
+
+.ordersList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.orderCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px 20px;
+
+  text-decoration: none;
+  color: var(--text);
+
+  background: var(--bg3);
+
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  transition: all 0.25s ease;
+}
+
+.orderCard:hover {
+  transform: translateY(-2px);
+  border-color: var(--text2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.orderCard h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.orderDate {
+  display: block;
+  margin-top: 5px;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.orderInfo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.amount {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text2);
+}
+
+/* ===== Status Badges ===== */
+
+.status {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.pending {
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.15);
+}
+
+.processing {
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.15);
+}
+
+.shipped {
+  color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.15);
+}
+
+.delivered {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.15);
+}
+
+.cancelled {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.15);
+}
+
+/* ===== Quick Actions ===== */
+
+.actions {
+  display: flex;
+  margin-top: 20px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.button {
+  padding: 10px 15px;
+  background: linear-gradient(135deg, var(--primary), #7c3aed);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.button:hover {
+  background: linear-gradient(135deg, var(--secondary), #7c3aed);
+}
+
+/* ===== Responsive ===== */
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 15px;
+  }
+
+  .cards {
+    flex-direction: column;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .button {
+    text-align: center;
+  }
+
+  .orderCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .orderInfo {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

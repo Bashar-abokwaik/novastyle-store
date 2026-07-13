@@ -1,10 +1,16 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+// import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./products.module.css";
 import { categoriesService } from "../../services/categoriesService";
 
-import type { categoryTemplate } from "../../services/mock/categories.mock";
+import type { Category } from "../../types";
+
+interface categoryResponse {
+  message: string;
+  categories: Category[];
+}
 
 interface ProductsControlsProps {
   search: string;
@@ -23,23 +29,15 @@ export default function ProductsControls({
   categorySlug,
   mode = "all",
 }: ProductsControlsProps) {
-  const [categories, setCategories] = useState<categoryTemplate[]>([]);
+  const { data: categories } = useQuery<categoryResponse, Error>({
+    queryKey: ["categories"],
+    queryFn: async (): Promise<categoryResponse> =>
+      (await categoriesService.getAll()) as categoryResponse,
+  });
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await categoriesService.getAll();
-        setCategories(data as categoryTemplate[]);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
-
-  const basePath = mode === "offers" ? "/offers/category" : "/products/category";
+  const basePath = mode === "offers" ? "/offers" : "/products";
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -47,7 +45,7 @@ export default function ProductsControls({
     if (value === "") {
       navigate(basePath);
     } else {
-      navigate(`${basePath}/${value}`);
+      navigate(`${basePath}/category/${value}`);
     }
   };
 
@@ -80,8 +78,8 @@ export default function ProductsControls({
         className={styles.filterSelect}
       >
         <option value="">All Categories</option>
-        {categories.map((category) => (
-          <option key={category.id} value={category.slug}>
+        {categories?.categories.map((category) => (
+          <option key={String(category._id)} value={category.slug}>
             {category.name}
           </option>
         ))}

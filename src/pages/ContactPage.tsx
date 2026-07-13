@@ -2,6 +2,7 @@ import ContactForm from "../components/ContactPage/ContactForm";
 import ContactInfo from "../components/ContactPage/ContactInfo";
 import styles from "../components/ContactPage/contact.module.css";
 
+// ContactPage component serves as the main contact page, displaying contact information and a contact form for users to get in touch with the support team.
 function ContactPage() {
   return (
     <>

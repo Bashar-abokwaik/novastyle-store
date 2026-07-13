@@ -1,0 +1,135 @@
+.container {
+  background: var(--bg);
+  color: var(--text);
+    padding: 30px;
+}
+
+.title {
+  margin-bottom: 24px;
+  font-size: 2rem;
+  color: var(--text2);
+}
+
+.tableWrapper {
+  background: var(--bg2);
+  border-radius: 12px;
+  overflow-x: auto;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.table {
+  width: 100%;
+  min-width: 800px;
+  border-collapse: collapse;
+}
+
+.table th {
+  background: var(--text2);
+  color: white;
+  text-align: left;
+  padding: 16px;
+  font-weight: 600;
+}
+
+.table td {
+  padding: 16px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover {
+  background: rgba(59, 91, 129, 0.08);
+}
+
+.role {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.admin {
+  background: rgba(192, 126, 43, 0.15);
+  color: var(--secondary);
+}
+
+.user {
+  background: rgba(59, 91, 129, 0.15);
+  color: var(--primary);
+}
+
+.actionButton {
+  border: none;
+  background: var(--text2);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.actionButton:hover {
+  opacity: 0.9;
+}
+
+.error {
+  color: red;
+  padding: 20px;
+}
+
+/* User Details */
+
+.card {
+  background: var(--bg3);
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 700px;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.card h1 {
+  margin-bottom: 24px;
+  color: var(--text2);
+}
+
+.infoRow {
+  display: flex;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+}
+
+.label {
+  min-width: 120px;
+  font-weight: 700;
+}
+
+.value {
+  color: var(--textSecondary, var(--text));
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .table th,
+  .table td {
+    padding: 12px;
+  }
+
+  .infoRow {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .label {
+    min-width: auto;
+    font-weight: 700;
+  }
+}
+

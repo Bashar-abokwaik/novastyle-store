@@ -111,6 +111,12 @@
   gap: 6px;
 }
 
+.description {
+  font-size: 14px;
+  color: var(--text);
+  flex: 1;
+}
+
 .cardActions {
   margin-top: auto;
   display: flex;

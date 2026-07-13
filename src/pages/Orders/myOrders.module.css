@@ -1,0 +1,85 @@
+.container {
+  margin: 0 auto ;
+  padding: 2rem 1rem;
+  min-height: 80vh;
+  background: var(--bg);
+  width: 100%;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header h2 {
+  color: var(--text);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.ordersList {
+  display: grid;
+  gap: 1.25rem;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.spinnerContainer,
+.errorContainer,
+.emptyContainer {
+  min-height: 40vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+}
+
+.errorContainer {
+  color: var(--error);
+  font-weight: 600;
+}
+
+.emptyContainer {
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.emptyContainer h3 {
+  color: var(--primary);
+}
+
+.emptyContainer p {
+  color: var(--text);
+}
+
+.shopBtn {
+  background: var(--secondary);
+  color: var(--text);
+
+  border: none;
+  border-radius: 10px;
+
+  padding: 0.8rem 1.4rem;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.shopBtn:hover {
+  background: #a96b22;
+  transform: translateY(-2px);
+}
+
+@media (min-width: 768px) {
+  .ordersList {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+}

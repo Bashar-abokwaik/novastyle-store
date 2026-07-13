@@ -1,10 +1,18 @@
 import { useState, useRef } from "react";
 import { contactService } from "../../services/contactService";
-import type { ContactMessage } from "../../services/contactService";
 import Toast from "../UI/Toast/Toast";
 import styles from "./contact.module.css";
+import { validateField } from "../../utils/validation";
+
+interface ContactMessage {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
 
 export default function ContactForm() {
+  // State and refs for managing form data, errors, touched fields, toast messages, and submission state
   const toastRef = useRef<HTMLDialogElement>(null!);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState<"success" | "error">("success");
@@ -14,6 +22,7 @@ export default function ContactForm() {
   const [errors, setErrors] = useState({
     name: "",
     email: "",
+    subject: "",
     message: "",
   });
   const [formData, setFormData] = useState<ContactMessage>({
@@ -21,6 +30,12 @@ export default function ContactForm() {
     email: "",
     subject: "",
     message: "",
+  });
+  const [touched, setTouched] = useState<Record<string, boolean>>({
+    name: false,
+    email: false,
+    subject: true, // subject is optional, so we can mark it as touched by default
+    message: false,
   });
 
   const showToast = () => {
@@ -32,42 +47,38 @@ export default function ContactForm() {
     }
   };
 
-  const validate = () => {
-    const newErrors = {
-      name: "",
-      email: "",
-      message: "",
-    };
-
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
-    }
-
-    setErrors(newErrors);
-
-    return !newErrors.name && !newErrors.email && !newErrors.message;
+  // Function to handle blur event on form fields
+  const handleBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
   };
 
+  // Function to handle change event on form fields
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
     setState("idle");
+    if (touched[name]) {
+      setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+    }
   };
 
+  // Function to handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validate()) {
+    // Validate all fields before submission
+    if (
+      Object.values(errors).some((error) => error) ||
+      !formData.name ||
+      !formData.email ||
+      !formData.message
+    ) {
       setToastType("error");
       setToastMessage("Please fill all required fields");
       showToast();
@@ -76,12 +87,18 @@ export default function ContactForm() {
 
     setState("loading");
 
+    // Send the contact message using the contactService
     try {
-      await contactService.sendMessage(formData);
+      await contactService.sendContactMessage(
+        formData.name,
+        formData.email,
+        formData.subject,
+        formData.message,
+      );
 
       setFormData({ name: "", email: "", subject: "", message: "" });
 
-      setErrors({ name: "", email: "", message: "" });
+      setErrors({ name: "", email: "", subject: "", message: "" });
 
       setState("success");
       setToastMessage("Message sent successfully!");
@@ -107,9 +124,9 @@ export default function ContactForm() {
             type="text"
             id="name"
             name="name"
-            required
             value={formData.name}
             onChange={handleChange}
+            onBlur={handleBlur}
             className={`${styles.nameInput} ${errors.name ? styles.errorInput : ""}`}
             placeholder="Your full name"
           />
@@ -123,9 +140,9 @@ export default function ContactForm() {
             type="email"
             id="email"
             name="email"
-            required
             value={formData.email}
             onChange={handleChange}
+            onBlur={handleBlur}
             className={`${styles.emailInput} ${errors.email ? styles.errorInput : ""}`}
             placeholder="Your email address"
           />
@@ -141,6 +158,7 @@ export default function ContactForm() {
             name="subject"
             value={formData.subject}
             onChange={handleChange}
+            onBlur={handleBlur}
             className={styles.subjectInput}
             placeholder="Subject (optional)"
           />
@@ -152,9 +170,9 @@ export default function ContactForm() {
           <textarea
             id="message"
             name="message"
-            required
             value={formData.message}
             onChange={handleChange}
+            onBlur={handleBlur}
             className={`${styles.messageInput} ${errors.message ? styles.errorInput : ""}`}
             placeholder="Your message"
           ></textarea>

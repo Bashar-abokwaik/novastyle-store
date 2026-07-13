@@ -1,12 +1,19 @@
-export type ContactMessage = {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-};
+import { api } from "./api/client";
 
+// The contactService object provides methods for sending contact messages.
 export const contactService = {
-  sendMessage: async (data: ContactMessage) => {
-    console.log("fake send:", data);
+  // Send a contact message to the support team
+  sendContactMessage: async (
+    name: string,
+    email: string,
+    subject: string,
+    message: string,
+  ) => {
+    return api.post("/contact", {
+      name,
+      email,
+      subject,
+      message,
+    });
   },
 };

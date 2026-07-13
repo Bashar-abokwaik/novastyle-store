@@ -1,0 +1,89 @@
+.container {
+  width: 100%;
+}
+
+.title {
+  margin-bottom: 24px;
+  color: var(--text);
+}
+
+.collectionsWrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+/* add collection form */
+
+.formContainer {
+  max-width: 700px;
+  margin: 0 auto;
+  background: var(--bg2);
+  padding: 32px;
+  border-radius: 16px;
+  border: 1px solid rgba(128, 128, 128, 0.15);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formGroup label {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.formGroup input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.submitButton {
+  margin-top: 10px;
+
+  border: none;
+  cursor: pointer;
+
+  padding: 14px;
+
+  border-radius: 10px;
+
+  background: var(--primary);
+  color: white;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  transition: 0.2s;
+}
+
+.submitButton:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .formContainer {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+}

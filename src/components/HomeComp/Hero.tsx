@@ -3,18 +3,19 @@ import Image1 from "../../assets/Images/1.png";
 import Image2 from "../../assets/Images/2.png";
 import Image3 from "../../assets/Images/3.png";
 
+// Define the structure of a carousel image object
 export type CarouselImage = {
-  id: number;
+  _id: string;
   src: string;
-  alt: string;
-  link: string;
+  link: string | undefined;
 };
 
 export default function Hero() {
+  // Define the images to be displayed in the carousel, each with a unique ID, source, and link
   const images: CarouselImage[] = [
-    {id: 1, src: Image1, alt: "Hero Image 1", link : "#NewArrivals"},
-    {id: 2, src: Image2 , alt: "Hero Image 2" , link : "#collections"},
-    {id: 3, src: Image3 , alt: "Hero Image 3" , link : "#offers"},
+    {_id: "1", src: Image1, link : "#NewArrivals"},
+    {_id: "2", src: Image2 , link : "#collections"},
+    {_id: "3", src: Image3 , link : "#offers"},
   ];
 
   return (
