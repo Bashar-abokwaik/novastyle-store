@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRef, useState } from "react";
 
@@ -31,6 +31,7 @@ interface ProductResponse {
 
 export default function EditProduct(): React.JSX.Element {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   // Get the productId from the URL parameters using useParams hook
   const { productId } = useParams();
   // Create a ref for the toast dialog to control its visibility and manage toast messages and types
@@ -58,14 +59,14 @@ export default function EditProduct(): React.JSX.Element {
       return response as CollectionsResponse;
     },
   });
-  
+
   // Fetch product details using react-query
   const { data: product, isLoading: isProductLoading } = useQuery({
     queryKey: ["product", productId],
     queryFn: async (): Promise<ProductResponse> => {
       console.log("Fetching product:", productId);
 
-      const response = await productsService.getById(productId!);
+      const response = await productsService.getProductByIdAdmin(productId!);
 
       console.log("Response:", response);
 
@@ -115,9 +116,15 @@ export default function EditProduct(): React.JSX.Element {
         price: formData.get("price") as string,
         imageUrl: formData.get("imageUrl") as string,
         categoryId: formData.get("categoryId") as string,
-        categorySlug: categories?.categories.find((category) => category._id === formData.get("categoryId"))?.slug || "",
+        categorySlug:
+          categories?.categories.find(
+            (category) => category._id === formData.get("categoryId"),
+          )?.slug || "",
         collectionId: (formData.get("collectionId") as string) || undefined,
-        collectionSlug: collections?.collections.find((collection) => collection._id === formData.get("collectionId"))?.slug || "",
+        collectionSlug:
+          collections?.collections.find(
+            (collection) => collection._id === formData.get("collectionId"),
+          )?.slug || "",
         stock: formData.get("stock") as string,
         costPrice: formData.get("costPrice") as string,
         discount: (formData.get("discount") as string) || "0",
@@ -129,6 +136,10 @@ export default function EditProduct(): React.JSX.Element {
       setToastType("success");
       showToast();
       form.reset();
+
+      // Invalidate the product query to ensure that the updated product data is fetched next time it's requested.
+      await queryClient.invalidateQueries({ queryKey: ["product", productId] });
+      await queryClient.invalidateQueries({ queryKey: ["products"] });
 
       // Navigate back to the products list after a short delay to allow the user to see the success message.
       setTimeout(() => {
@@ -148,8 +159,6 @@ export default function EditProduct(): React.JSX.Element {
   if (!product || isProductLoading) {
     return <Spinner />;
   }
-
-
 
   return (
     <>

@@ -1,50 +1,90 @@
 /* BASE BUTTON */
 .btn {
   width: 100%;
-  padding: 10px 16px;
-  border-radius: 10px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
   font-size: 14px;
   font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: all 0.25s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  letter-spacing: 0.3px;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    opacity 0.25s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 /* PRIMARY - brand color */
 .primary {
-  background: var(--primary);
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(59, 91, 129, 0.25);
+  color: white;
+  background: linear-gradient(180deg, #45688f, var(--primary));
+  box-shadow: 0 8px 18px rgba(59, 91, 129, 0.22);
 }
 
 .primary:hover {
-  background: #2c4666;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(59, 91, 129, 0.35);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px rgba(59, 91, 129, 0.35);
+  background: linear-gradient(180deg, #537aa7, #355275);
+}
+.primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(59, 91, 129, 0.25);
 }
 
 /* SECONDARY - soft neutral */
 .secondary {
-  background: var(--secondary);
-  color: #ffffff;
-  border: 1px solid var(--secondary);
+  color: white;
+  background: linear-gradient(180deg, #c5893b, var(--secondary));
+  box-shadow: 0 8px 18px rgba(182, 125, 49, 0.22);
 }
 
 .secondary:hover {
-  background: #a96b22;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  background: linear-gradient(180deg, #d59a49, #a86b24);
+  box-shadow: 0 14px 28px rgba(182, 125, 49, 0.35);
+}
+
+.secondary:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(182, 125, 49, 0.25);
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(59, 91, 129, 0.2);
 }
 
 /* DISABLED STATE */
 .btn:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
+  filter: grayscale(0.25);
   transform: none;
+  box-shadow: none;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 75%
+  );
+  transform: translateX(-120%);
+  transition: 0.55s;
+}
+
+.btn:hover::before {
+  transform: translateX(120%);
 }
 
 /* responsive */

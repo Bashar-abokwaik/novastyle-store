@@ -1,17 +1,21 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./Orders.module.css";
 
 import { orderService } from "../../../services/orderService";
 
 import type { Order } from "../../../types";
 
- import Spinner from "../../../components/UI/Spinner/Spinner";
+import Spinner from "../../../components/UI/Spinner/Spinner";
+import { useState } from "react";
 
- // OrderResponse interface defines the structure of the response received when fetching all orders, including a message and an array of Order objects.
+// OrderResponse interface defines the structure of the response received when fetching all orders, including a message and an array of Order objects.
 interface OrderResponse {
-    message: string;
-    orders: Order[];
+  message: string;
+  orders: Order[];
+  page: number;
+  pages: number;
+  limit: number;
 }
 
 export default function AdminOrders() {
@@ -19,16 +23,19 @@ export default function AdminOrders() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
+  const [page, setPage] = useState(1);
+  const limit = 10; // Number of orders per page
+
   // Use the useQuery hook to fetch all orders for the admin dashboard. It handles loading, error, and success states.
   const { data, isLoading, error } = useQuery<OrderResponse>({
-    queryKey: ["admin-orders"],
+    queryKey: ["admin-orders", page],
     queryFn: async (): Promise<OrderResponse> => {
       try {
-        const response = await orderService.adminGetAllOrders();
+        const response = await orderService.adminGetAllOrders(page, limit);
         return response as OrderResponse;
       } catch {
         throw new Error("Failed to fetch orders");
-        }
+      }
     },
   });
 
@@ -40,7 +47,7 @@ export default function AdminOrders() {
     mutationFn: ({ id, status }: { id: string; status: string }) =>
       orderService.adminUpdateOrderStatus(id, status),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-orders", page] });
     },
   });
 
@@ -48,7 +55,7 @@ export default function AdminOrders() {
   const deleteMutation = useMutation({
     mutationFn: (id: string) => orderService.adminDeleteOrder(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-orders", page] });
     },
   });
 
@@ -83,8 +90,8 @@ export default function AdminOrders() {
                 <td>${order.totalAmount}</td>
 
                 <td>
-                  <select 
-                  className={styles.statusSelect}
+                  <select
+                    className={styles.statusSelect}
                     value={order.status}
                     onChange={(e) =>
                       updateStatusMutation.mutate({
@@ -101,9 +108,7 @@ export default function AdminOrders() {
                   </select>
                 </td>
 
-                <td>
-                  {new Date(order.createdAt).toLocaleDateString()}
-                </td>
+                <td>{new Date(order.createdAt).toLocaleDateString()}</td>
 
                 <td className={styles.actions}>
                   <button
@@ -123,6 +128,22 @@ export default function AdminOrders() {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className={styles.pagination}>
+        <button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
+          Previous
+        </button>
+
+        <span>
+          Page {page} of {data?.pages}
+        </span>
+
+        <button
+          disabled={page === data?.pages}
+          onClick={() => setPage((p) => p + 1)}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

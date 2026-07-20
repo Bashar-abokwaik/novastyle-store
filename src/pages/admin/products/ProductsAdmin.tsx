@@ -14,6 +14,9 @@ import ConfirmDialog from "../../../components/common/ConfirmDialog";
 interface ProductsResponse {
   message: string;
   products: productTemplate[];
+  total: number;
+  page: number;
+  pages: number;
 }
 
 export default function ProductsAdmin() {
@@ -32,6 +35,10 @@ export default function ProductsAdmin() {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState<"success" | "error">("success");
 
+  // State to manage the current page for pagination
+  const [page, setPage] = useState(1);
+  const limit = 10;
+
   // showToast function displays the toast message for a short duration.
   const showToast = () => {
     toastRef.current?.showModal();
@@ -42,13 +49,19 @@ export default function ProductsAdmin() {
 
   // Use the useQuery hook from React Query to fetch the list of products for admin view. It handles loading, error, and success states.
   const { data: response, isLoading } = useQuery<ProductsResponse>({
-    queryKey: ["products"],
+    queryKey: ["products", page],
     queryFn: async (): Promise<ProductsResponse> =>
-      (await productsService.getAllProductsAdmin()) as ProductsResponse,
+      (await productsService.getAllProductsAdmin(
+        page,
+        limit,
+      )) as ProductsResponse,
   });
 
   // Extract the products array from the response, defaulting to an empty array if the response is undefined. This ensures that the component can safely render even if the data hasn't been fetched yet or if there are no products available.
   const products = response?.products ?? [];
+
+  // Extract the total number of pages from the response, defaulting to 1 if the response is undefined. This is used for pagination controls in the UI.
+  const totalPages = response?.pages ?? 1;
 
   // Handle navigation to the Add Product page when the "Add" button is clicked
   const handleAdd = () => {
@@ -91,6 +104,7 @@ export default function ProductsAdmin() {
     }
   };
 
+  console.log(page);
   return (
     <>
       <Toast ref={toastRef} type={toastType} message={toastMessage} />
@@ -208,6 +222,25 @@ export default function ProductsAdmin() {
             })}
           </tbody>
         </table>
+        <div className={styles.pagination}>
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((prev) => prev - 1)}
+          >
+            Previous
+          </button>
+
+          <span>
+            Page {page} of {totalPages}
+          </span>
+
+          <button
+            disabled={page === totalPages}
+            onClick={() => setPage((prev) => prev + 1)}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </>
   );

@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { productsService } from "../../services/productsService";
-import { getDiscountedPrice } from "../../utils/discountedPrice";
 
 import type { productTemplate } from "../../types/index";
 
@@ -22,6 +21,9 @@ interface ProductsProps {
 interface ProductsResponse {
   message: string;
   products: productTemplate[];
+  total: number;
+  page: number;
+  pages: number;
 }
 
 // Products component fetches and displays products based on the specified mode ("all" or "offers") and allows filtering and sorting of the products.
@@ -29,29 +31,58 @@ function Products({ mode = "all" }: ProductsProps) {
   // Extract the 'slug' parameter from the URL to filter products by category if provided.
   const { slug } = useParams<{ slug: string }>();
 
-  // Use the useQuery hook from React Query to fetch products based on the specified mode. It handles loading, error, and success states.
-  const { data, error, isLoading } = useQuery<ProductsResponse, Error>({
-    queryKey: ["products", mode],
-    queryFn: async (): Promise<ProductsResponse> =>
-      mode === "offers"
-        ? ((await productsService.getOffers()) as ProductsResponse)
-        : ((await productsService.getAll()) as ProductsResponse),
-  });
+  // State to manage the current page for pagination
+  const [page, setPage] = useState(1);
+  const limit = 10;
 
   // State variables to manage search and sort functionality for the products list.
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("");
+  const [priceSort, setPriceSort] = useState("");
+  const [nameSort, setNameSort] = useState("");
 
-  
+  const sort = priceSort || nameSort;
+
+  // Use the useQuery hook from React Query to fetch products based on the specified mode. It handles loading, error, and success states.
+  const { data, error, isLoading } = useQuery<ProductsResponse, Error>({
+    queryKey: ["products", mode, slug, page, limit, sort],
+    queryFn: async (): Promise<ProductsResponse> => {
+      if (mode === "offers" && slug) {
+        return (await productsService.getByCategoryOffers(
+          slug,
+          page,
+          limit,
+          sort,
+        )) as ProductsResponse;
+      }
+      if (slug) {
+        return (await productsService.getByCategory(
+          slug,
+          page,
+          limit,
+          sort,
+        )) as ProductsResponse;
+      }
+
+      return mode === "offers"
+        ? ((await productsService.getOffers(
+            page,
+            limit,
+            sort,
+          )) as ProductsResponse)
+        : ((await productsService.getAll(
+            page,
+            limit,
+            sort,
+          )) as ProductsResponse);
+    },
+  });
+
   const products = data?.products || [];
   let filtered = [...(products || [])]; // Create a copy of the products array to apply filters and sorting without mutating the original data.
   const categorySlug = slug || "";
 
-
-  // Filter products based on the specified mode. If the mode is "offers", only include products with a discount greater than 0. If the mode is "all", exclude products with a discount of 0 or no discount.
-  if (mode === "all"){
-    filtered = filtered.filter((p) => !p.discount || p.discount === 0);
-  }
+  // Extract the total number of pages from the response, defaulting to 1 if the response is undefined. This is used for pagination controls in the UI.
+  const totalPages = data?.pages ?? 1;
 
   // search filter
   if (search) {
@@ -60,45 +91,43 @@ function Products({ mode = "all" }: ProductsProps) {
     );
   }
 
-  // sort
-  const discountedPrice = (p: productTemplate) =>
-    getDiscountedPrice(p.price, p.discount || 0);
-
-  // Sort products based on the selected sort option. If the mode is "offers", sort by discounted price. If the mode is "all", sort by regular price. The sorting can be either ascending or descending based on the selected option.
-  if (mode === "offers") {
-    if (sort === "price-asc") {
-      filtered.sort((a, b) => discountedPrice(a) - discountedPrice(b));
-    } else if (sort === "price-desc") {
-      filtered.sort((a, b) => discountedPrice(b) - discountedPrice(a));
-    }
-  } else {
-    if (sort === "price-asc") {
-      filtered.sort((a, b) => a.price - b.price);
-    } else if (sort === "price-desc") {
-      filtered.sort((a, b) => b.price - a.price);
-    }
-  }
-
-  // Filter products by category if a category slug is provided
-  if (categorySlug) {
-    filtered = filtered.filter((p) => p.categorySlug === categorySlug);
-  }
-
   return (
     <div className={styles.products}>
       <ProductsControls
         search={search}
         setSearch={setSearch}
-        sort={sort}
-        setSort={setSort}
+        priceSort={priceSort}
+        setPriceSort={setPriceSort}
+        nameSort={nameSort}
+        setNameSort={setNameSort}
         categorySlug={categorySlug}
         mode={mode}
+        resetPage={() => setPage(1)} // Pass a function to reset the page number to 1 when search or sort changes
       />
 
       {isLoading && <Spinner />}
       {error && <p>Error: {error.message}</p>}
 
-      <ProductsList products={filtered} showDiscount={mode === "offers"} />
+      <ProductsList products={filtered} />
+      <div className={styles.pagination}>
+        <button
+          disabled={page === 1}
+          onClick={() => setPage((prev) => prev - 1)}
+        >
+          Previous
+        </button>
+
+        <span>
+          Page {page} of {totalPages}
+        </span>
+
+        <button
+          disabled={page === totalPages}
+          onClick={() => setPage((prev) => prev + 1)}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

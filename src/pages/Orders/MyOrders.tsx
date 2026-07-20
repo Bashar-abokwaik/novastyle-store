@@ -14,6 +14,9 @@ import styles from "./myOrders.module.css";
 interface OrderResponse {
   message: string;
   orders: Order[];
+  total: number;
+  page: number;
+  pages: number;
 }
 
 export default function MyOrders() {
@@ -34,21 +37,25 @@ export default function MyOrders() {
     }
   };
 
+  // State to manage the current page of orders for pagination.
+  const [page, setPage] = useState(1);
+  const limit = 10; // Number of orders per page
+
   // useQuery hook is used to fetch the user's orders from the server. It handles loading, error, and success states.
   const { data, isLoading, error } = useQuery<OrderResponse>({
-  queryKey: ["userOrders"],
-  queryFn: async (): Promise<OrderResponse> => {
-    try {
-      const response = await userService.getUserOrders();
-      return response as OrderResponse;
-    } catch (error) {
-      setToastType("error");
-      setToastMessage("Failed to fetch orders");
-      showToast();
-      throw error;
-    }
-  },
-});
+    queryKey: ["userOrders", page],
+    queryFn: async (): Promise<OrderResponse> => {
+      try {
+        const response = await userService.getUserOrders(page, limit);
+        return response as OrderResponse;
+      } catch (error) {
+        setToastType("error");
+        setToastMessage("Failed to fetch orders");
+        showToast();
+        throw error;
+      }
+    },
+  });
 
   // If there is an error fetching the orders, display an error message.
   if (error) {
@@ -82,6 +89,27 @@ export default function MyOrders() {
           ))
         )}
       </div>
+      {data && data.pages > 1 && (
+        <div className={styles.pagination}>
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((prev) => prev - 1)}
+          >
+            Previous
+          </button>
+
+          <span>
+            Page {page} of {data.pages}
+          </span>
+
+          <button
+            disabled={page === data.pages}
+            onClick={() => setPage((prev) => prev + 1)}
+          >
+            Next
+          </button>
+        </div>
+      )}
       <Toast ref={toastRef} type={toastType} message={toastMessage} />
     </section>
   );

@@ -53,8 +53,21 @@ export default function NewArrivalCard({
 
       <div className={styles.cardBody}>
         <h3 className={styles.cardTitle}>{product.title}</h3>
-        <p className={styles.cardPrice}>${product.price.toFixed(2)}</p>
-
+        {(product.discount ?? 0) > 0 ? (
+          <p className={styles.cardPrice}>
+            <span className={styles.originalPrice}>
+              ${product.price.toFixed(2)}
+            </span>
+            <span className={styles.discountedPrice}>
+              ${(product.price * (1 - (product.discount ?? 0) / 100)).toFixed(2)}
+            </span>
+          </p>
+        ) : (
+          <p className={styles.cardPrice}>${product.price.toFixed(2)}</p>
+        )}
+        {(product.discount ?? 0) > 0 && (
+          <span className={styles.discountBadge}>-{product.discount}%</span>
+        )}
         <div className={styles.actions}>
           <Button variant="primary" onClick={handleViewDetails}>
             View Details

@@ -19,6 +19,7 @@ export default function VerifyEmailOTP() {
   const dispatch = useDispatch();
   const location = useLocation();
 
+  // useEffect hook to manage the countdown timer for resending OTP. It decrements the countdown every second until it reaches zero, at which point the user can resend the OTP.
   useEffect(() => {
     if (countdown === 0) return;
 
@@ -42,7 +43,6 @@ export default function VerifyEmailOTP() {
   const handleResendOtp = async () => {
     const email = location.state?.email;
 
-    console.log("Email:", email);
     if (!email) {
       setToastMessage("Email not found.");
       setToastType("error");

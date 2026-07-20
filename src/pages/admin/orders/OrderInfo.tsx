@@ -58,40 +58,48 @@ export default function OrderInfo() {
             <h3>User</h3>
             <p>{order.userId.email}</p>
           </div>
-
           <div className={styles.card}>
-            <h3>Status</h3>
-
-            <select
-              value={order.status}
-              onChange={(e) =>
-                updateStatus.mutate(e.target.value)
-              }
-            >
-              <option value="pending">Pending</option>
-              <option value="processing">Processing</option>
-              <option value="shipped">Shipped</option>
-              <option value="delivered">Delivered</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
+            <h3>Shipping Address</h3>
+            <p>
+              {order.shippingAddress.street}, {order.shippingAddress.city}
+            </p>
+            <p>
+              {order.shippingAddress.country} -{" "}
+              {order.shippingAddress.postalCode}
+            </p>
           </div>
         </div>
 
-        {/* ITEMS */}
         <div className={styles.card}>
-          <h3>Items</h3>
+          <h3>Status</h3>
 
-          <div className={styles.itemsList}>
-            {order.items.map((item: OrderItem) => (
-              <div key={item._id} className={styles.item}>
-                <span>{item.productId.title}</span>
-                <span>x{item.quantity}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className={styles.totalBox}>Total: ${order.totalAmount}</div>
+          <select
+            value={order.status}
+            onChange={(e) => updateStatus.mutate(e.target.value)}
+          >
+            <option value="pending">Pending</option>
+            <option value="processing">Processing</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
         </div>
+      </div>
+
+      {/* ITEMS */}
+      <div className={styles.card}>
+        <h3>Items</h3>
+
+        <div className={styles.itemsList}>
+          {order.items.map((item: OrderItem) => (
+            <div key={item._id} className={styles.item}>
+              <span>{item.productId.title}</span>
+              <span>x{item.quantity}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.totalBox}>Total: ${order.totalAmount}</div>
       </div>
     </div>
   );

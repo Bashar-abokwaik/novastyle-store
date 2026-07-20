@@ -15,6 +15,7 @@ export default function ChangePassword() {
   const [toastType, setToastType] = useState<"success" | "error">("success");
   const [errors, setErrors] = useState<{
     newPassword?: string;
+    confirmPassword?: string;
   }>({});
 
   // Function to show toast notifications
@@ -36,6 +37,22 @@ export default function ChangePassword() {
         newErrors.newPassword =
           value.length >= 8 ? "" : "New password must be at least 8 characters";
       }
+      else if (
+        name === "confirmPassword" &&
+        value !==
+          (e.target.form?.elements.namedItem("newPassword") as HTMLInputElement)
+            ?.value
+      ) {
+        setErrors((prev) => ({
+          ...prev,
+          confirmPassword: "Passwords do not match",
+        }));
+      } else if (name === "confirmPassword") {
+        setErrors((prev) => ({
+          ...prev,
+          confirmPassword: "",
+        }));
+      }
       return newErrors;
     });
   };
@@ -47,6 +64,9 @@ export default function ChangePassword() {
       const newErrors = { ...prev };
       if (name === "newPassword") {
         newErrors.newPassword = "";
+      }
+      if (name === "confirmPassword") {
+        newErrors.confirmPassword = "";
       }
       return newErrors;
     });
@@ -92,6 +112,11 @@ export default function ChangePassword() {
       );
       showToast();
     }
+    // Reset the form after submission
+    event.currentTarget.reset();
+    setErrors({});
+    setShowPassword(false);
+    
   };
 
   return (
@@ -149,6 +174,8 @@ export default function ChangePassword() {
                 id="confirmPassword"
                 name="confirmPassword"
                 required
+                onBlur={handleBlur}
+                onFocus={handleFocus}
               />
               <button
                 type="button"
@@ -158,6 +185,9 @@ export default function ChangePassword() {
                 {showPassword ? <EyeOff /> : <Eye />}
               </button>
             </div>
+            {errors.confirmPassword && (
+              <span className={styles.error}>{errors.confirmPassword}</span>
+            )}
           </div>
           <button type="submit" className={styles.changePasswordBtn}>
             Change Password

@@ -4,8 +4,13 @@ import { api } from "./api/client";
 export const productsService = {
 
   // Retrieve all products for admin users
-  getAllProductsAdmin: async () => {
-    return api.get("/products/admin", true);
+  getAllProductsAdmin: async (page: number, limit: number) => {
+    return api.get(`/products/admin?page=${page}&limit=${limit}`, true);
+  },
+
+  // Retrieve a specific product by its ID for admin users
+  getProductByIdAdmin: async (id: string) => {
+    return api.get(`/products/admin/${id}`, true);
   },
 
   // Create a new product
@@ -24,13 +29,13 @@ export const productsService = {
   },
 
   // Retrieve all products
-  getAll: async () => {
-    return api.get("/products");
+  getAll: async (page = 1, limit = 10, sort?: string) => {
+    return api.get(`/products?page=${page}&limit=${limit}&sort=${sort}`);
   },
 
   // Retrieve products that are discounted
-  getOffers: async () => {
-    return api.get("/products/offers");
+  getOffers: async (page = 1, limit = 10, sort?: string) => {
+    return api.get(`/products/offers?page=${page}&limit=${limit}&sort=${sort}`);
   },
 
   // Retrieve a product by its ID
@@ -39,23 +44,28 @@ export const productsService = {
   },
 
   // Retrieve products by category
-  getByCategory: async (categorySlug: string) => {
-    return api.get(`/products/category/${categorySlug}`);
+  getByCategory: async (categorySlug: string, page = 1, limit = 10, sort?: string) => {
+    return api.get(`/products/category/${categorySlug}?page=${page}&limit=${limit}&sort=${sort}`);
+  },
+
+  // Retrieve discounted products by category
+  getByCategoryOffers: async (categorySlug: string, page = 1, limit = 10, sort?: string) => {
+    return api.get(`/products/category/${categorySlug}/offers?page=${page}&limit=${limit}&sort=${sort}`);
   },
 
   // Retrieve products by collection
-  getByCollection: async (collectionSlug: string) => {
-    return api.get(`/products/collection/${collectionSlug}`);
+  getByCollection: async (collectionSlug: string, page = 1, limit = 10) => {
+    return api.get(`/products/collection/${collectionSlug}?page=${page}&limit=${limit}`);
   },
 
   // Retrieve new arrivals 
-  getNewArrivals: async () => {
-    return api.get("/products/new-arrivals");
+  getNewArrivals: async (page = 1, limit = 8) => {
+    return api.get(`/products/new-arrivals?page=${page}&limit=${limit}`);
   },
 
   // Retrieve featured products
-  getFeatured: async () => {
-    return api.get("/products/featured");
+  getFeatured: async (page = 1, limit = 8) => {
+    return api.get(`/products/featured?page=${page}&limit=${limit}`);
   },
 
 };

@@ -18,12 +18,8 @@ import styles from "./Cart.module.css";
 
 export default function Cart() {
   // Destructure cart management functions from the useCart hook
-  const {
-    increaseQuantity,
-    decreaseQuantity,
-    removeFromCart,
-    clearUserCart,
-  } = useCart();
+  const { increaseQuantity, decreaseQuantity, removeFromCart, clearUserCart } =
+    useCart();
   // Get the authentication token from the Redux store
   const token = useSelector((state: RootState) => state.auth.token);
 
@@ -31,7 +27,6 @@ export default function Cart() {
   const cartItems = useSelector(selectCartItems);
   const cartTotal = useSelector(selectCartTotal);
   const cartCount = useSelector(selectCartCount);
-
 
   // Handler functions for cart actions
   const handleIncrease = async (productId: string) => {
@@ -44,7 +39,8 @@ export default function Cart() {
   const handleDecrease = async (productId: string) => {
     if (!token) return;
     // Get the current quantity of the product in the cart. If the product is not found, default to 1.
-    const currentQuantity = cartItems.find(item => item.productId._id === productId)?.quantity ?? 1;
+    const currentQuantity =
+      cartItems.find((item) => item.productId._id === productId)?.quantity ?? 1;
     await decreaseQuantity(productId, currentQuantity);
   };
 
@@ -81,18 +77,32 @@ export default function Cart() {
           {cartItems.map((item) => (
             <li key={item.productId._id} className={styles.cartItem}>
               <div className={styles.imageWrapper}>
-                <img src={item.productId.imageUrl} className={styles.cartItemImage} />
+                <img
+                  src={item.productId.imageUrl}
+                  className={styles.cartItemImage}
+                />
               </div>
 
               <div className={styles.cartItemDetails}>
                 <p className={styles.cartItemTitle}>{item.productId.title}</p>
-
-                <span className={styles.cartItemPrice}>
-                  $
-                  {(
-                    getDiscountedPrice(item.productId.price, item.productId.discount ?? 0) * item.quantity
-                  ).toFixed(2)}
-                </span>
+                {item.productId.discount ? (
+                  <p className={styles.cartItemPrice}>
+                    <span className={styles.originalPrice}>
+                      ${(item.productId.price * item.quantity).toFixed(2)}
+                    </span>
+                    <span className={styles.discountedPrice}>
+                      $
+                      {getDiscountedPrice(
+                        item.productId.price * item.quantity,
+                        item.productId.discount,
+                      ).toFixed(2)}
+                    </span>
+                  </p>
+                ) : (
+                  <p className={styles.cartItemPrice}>
+                    ${(item.productId.price * item.quantity).toFixed(2)}
+                  </p>
+                )}
               </div>
 
               <div className={styles.cartItemActions}>

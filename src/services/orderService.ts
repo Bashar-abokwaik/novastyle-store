@@ -31,8 +31,8 @@ export const orderService = {
   },
 
   // Retrieve all orders (admin)
-  adminGetAllOrders: async () => {
-    return api.get("/orders/admin", true);
+  adminGetAllOrders: async (page: number, limit: number) => {
+    return api.get(`/orders/admin?page=${page}&limit=${limit}`, true);
   },
   // Update the status of an order (admin)
   adminUpdateOrderStatus: async (orderId: string, status: string) => {
