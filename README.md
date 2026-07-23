@@ -1,74 +1,155 @@
-# React + TypeScript + Vite
+# NovaStyle
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Modern Full Stack E-Commerce Web Application built with React, TypeScript, Redux Toolkit and Tailwind CSS.
 
-Currently, two official plugins are available:
+NovaStyle provides customers with a complete online shopping experience while also including a full-featured Admin Dashboard for managing the entire store.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Live Demo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+https://novastyle-store.web.app
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Demo Admin Account
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+You can explore the Admin Dashboard using the following demo account:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Email**
+
+```text
+admin@novastyle.com
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Password**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+Admin1##
 ```
-# novastyle-store
+
+> **Note:** This account is intended for demonstration purposes only.
+
+
+## Tech Stack
+
+- React
+- TypeScript
+- Redux Toolkit
+- React Query
+- React Router
+- Tailwind CSS
+- CSS Modules
+- Framer Motion
+
+Backend
+
+- Express.js
+- MongoDB
+- JWT
+
+---
+
+## Features
+
+### Customer
+
+- Authentication
+- Browse Products
+- Categories
+- Collections
+- Best Sellers
+- Offers
+- Shopping Cart
+- Checkout
+- Order History
+- Order Details
+- Contact Form
+- Newsletter
+- Responsive Design
+- Dark Mode
+
+### Admin Dashboard
+
+- Dashboard Statistics
+- Manage Products
+- Manage Categories
+- Manage Collections
+- Manage Orders
+- Manage Users
+- Inventory Management
+
+---
+
+## Installation
+
+```bash
+git clone <repository>
+
+npm install
+
+npm run dev
+```
+
+---
+
+## Environment Variables
+
+```
+VITE_API_URL=
+```
+
+---
+
+## Build
+
+```
+npm run build
+```
+
+---
+
+## Deployment
+
+Frontend deployed using Firebase Hosting.
+
+---
+
+## Project Structure
+
+```
+src/
+
+components/
+
+pages/
+
+services/
+
+redux/
+
+hooks/
+
+utils/
+
+types/
+```
+
+---
+
+## Future Improvements
+
+- Wishlist
+- Product Reviews
+- Online Payments
+- Multi-language Support
+- Product Search
+- Coupon System
+
+---
+
+## Author
+
+Developed by **Bashar Abokwaik**

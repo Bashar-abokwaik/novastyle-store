@@ -5,6 +5,7 @@ import { logout } from "../../features/auth/authSlice";
 // The base URL for the API endpoints.
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+console.log("API Base URL:", BASE_URL); // Log the base URL for debugging purposes
 // A generic function to make HTTP requests and handle responses.
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(BASE_URL + url, {
