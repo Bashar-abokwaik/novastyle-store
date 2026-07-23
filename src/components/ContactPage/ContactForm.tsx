@@ -92,7 +92,7 @@ export default function ContactForm() {
       await contactService.sendContactMessage(
         formData.name,
         formData.email,
-        formData.subject,
+        formData.subject ? formData.subject : "",
         formData.message,
       );
 

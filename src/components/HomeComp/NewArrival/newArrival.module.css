@@ -26,6 +26,7 @@
 
 /* CARD */
 .card {
+  position: relative;
   background: var(--bg2);
   border-radius: 16px;
   overflow: hidden;
@@ -38,6 +39,39 @@
 .card:hover {
   transform: translateY(-6px);
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.cardPrice {
+  font-weight: bold;
+  color: var(--secondary);
+  font-size: 16px;
+}
+
+.originalPrice {
+  text-decoration: line-through;
+  font-size: 14px;
+  color: var(--text2);
+  opacity: 0.7;
+}
+
+.discountedPrice {
+  padding-left: 8px;
+  color: var(--accent);
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.discountBadge{
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  background: var(--accent);
+  color: white;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 /* IMAGE */
@@ -88,9 +122,9 @@
 }
 
 .cardBody .cardPrice { 
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
-  color: #3b5b81;
+  color: var(--text2);
 }
 
 /* ACTIONS */
@@ -109,29 +143,16 @@
   margin: 0 auto;
 }
 
-/* VIEW ALL BUTTON */
-.viewAllContainer {
+/* LOAD MORE BUTTON */
+.loadMore {
   display: flex;
   justify-content: center;
   margin-top: 30px;
-}
-.viewAllBtn {
-  text-decoration: none;
-  margin-top: 30px;
-  padding: 12px 24px;
-  background: var(--secondary);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
+  width: 50%;
+  margin: 40px auto 5px auto;
+  padding: 10px 20px;
 }
 
-.viewAllBtn:hover {
-  transform: translateY(-2px);
-}
 
 /* RESPONSIVE */
 @media (max-width: 768px) {

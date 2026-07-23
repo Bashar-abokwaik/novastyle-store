@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 
 import { orderService } from "../../services/orderService";
 
+import { getDiscountedPrice } from "../../utils/discountedPrice";
+
 import Toast from "../../components/UI/Toast/Toast";
 import Spinner from "../../components/UI/Spinner/Spinner";
 
@@ -91,7 +93,23 @@ export default function OrderPage() {
 
               <div>
                 <h4>Total Amount</h4>
-                <p>${data.order.totalAmount.toFixed(2)}</p>
+                {/* Calculate the total amount by summing up the discounted prices of all items in the order, multiplied by their respective quantities.
+                 The result is formatted to two decimal places. */}
+                <p>
+                  $
+                  {data.order.items
+                    .reduce(
+                      (acc, item) =>
+                        acc +
+                        getDiscountedPrice(
+                          item.productId.price,
+                          item.productId.discount ?? 0,
+                        ) *
+                          item.quantity,
+                      0,
+                    )
+                    .toFixed(2)}
+                </p>
               </div>
             </div>
 
@@ -119,7 +137,15 @@ export default function OrderPage() {
 
                     <p>Qty: {item.quantity}</p>
 
-                    <p>${item.price.toFixed(2)}</p>
+                    <p>
+                      $
+                      {(
+                        getDiscountedPrice(
+                          item.productId.price,
+                          item.productId.discount ?? 0,
+                        ) * item.quantity
+                      ).toFixed(2)}
+                    </p>
                   </div>
                 </div>
               ))}

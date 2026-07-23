@@ -1,8 +1,11 @@
+import { store } from "../../app/store";
+import { logout } from "../../features/auth/authSlice";
 // This file contains the API client for making HTTP requests to the backend server.
 
 // The base URL for the API endpoints.
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
+console.log("API Base URL:", BASE_URL); // Log the base URL for debugging purposes
 // A generic function to make HTTP requests and handle responses.
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(BASE_URL + url, {
@@ -14,6 +17,15 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
   });
 
   const data = await res.json().catch(() => null);
+  // Handle unauthorized responses by removing the token and redirecting to the login page
+  if (res.status === 401) {
+    localStorage.removeItem("token");
+
+    store.dispatch(logout());
+
+    window.location.href = "/login";
+    throw new Error("Session expired. Please log in again.");
+  }
   if (!res.ok) {
     throw new Error(data?.message || "Request failed");
   }

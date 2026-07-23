@@ -1,5 +1,5 @@
 .container {
-  margin: 0 auto ;
+  margin: 0 auto;
   padding: 2rem 1rem;
   min-height: 80vh;
   background: var(--bg);
@@ -12,7 +12,7 @@
 }
 
 .header h2 {
-  color: var(--text);
+  color: var(--text2);
   font-size: 2rem;
   margin-bottom: 0.5rem;
 }
@@ -52,7 +52,7 @@
 }
 
 .emptyContainer h3 {
-  color: var(--primary);
+  color: var(--text2);
 }
 
 .emptyContainer p {
@@ -76,6 +76,38 @@
 .shopBtn:hover {
   background: #a96b22;
   transform: translateY(-2px);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+
+  margin-top: 30px;
+}
+
+.pagination button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.pagination button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-weight: 600;
 }
 
 @media (min-width: 768px) {

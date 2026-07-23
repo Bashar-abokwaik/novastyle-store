@@ -7,6 +7,7 @@ import styles from "./orderSummary.module.css";
 import { useEffect } from "react";
 import { useCart } from "../../hooks/useCart";
 
+import { getDiscountedPrice } from "../../utils/discountedPrice";
 
 export default function OrderSummary() {
   // Access the cart items and total from the Redux store using selectors
@@ -18,7 +19,7 @@ export default function OrderSummary() {
   useEffect(() => {
     refreshCart();
   }, [refreshCart]);
-  
+
   return (
     <div className={styles.orderSummary}>
       <h2 className={styles.heading}>Order Summary</h2>
@@ -27,7 +28,14 @@ export default function OrderSummary() {
           <li key={item.productId._id} className={styles.item}>
             <span>{item.productId.title}</span>
             <span>
-              ${item.productId.price} x {item.quantity}
+              $
+              {(
+                getDiscountedPrice(
+                  item.productId.price,
+                  item.productId.discount ?? 0,
+                ) * item.quantity
+              ).toFixed(2)}{" "}
+              x {item.quantity}
             </span>
           </li>
         ))}

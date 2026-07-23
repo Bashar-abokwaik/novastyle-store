@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import type { Order } from "../../types";
 
+import { getDiscountedPrice } from "../../utils/discountedPrice";
+
 import styles from "./orderCard.module.css";
 
 // OrderCard component displays a summary of an order, including its ID, status, number of products, date, and total amount. It also provides a button to view detailed information about the order.
@@ -51,7 +53,21 @@ export default function OrderCard({ order }: Props) {
       </div>
 
       <div className={styles.bottom}>
-        <h4>${order.totalAmount.toFixed(2)}</h4>
+        <h4>
+          $
+          {order.items
+            .reduce(
+              (acc, item) =>
+                acc +
+                getDiscountedPrice(
+                  item.productId.price,
+                  item.productId.discount ?? 0,
+                ) *
+                  item.quantity,
+              0,
+            )
+            .toFixed(2)}
+        </h4>
 
         <button onClick={() => navigate(`/orders/${order._id}`)}>
           View Details

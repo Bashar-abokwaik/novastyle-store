@@ -2,7 +2,9 @@
   background: var(--bg);
   color: var(--text);
   padding: 30px;
-  min-height: 100vh;
+  min-height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
 }
 
 .title {
@@ -141,6 +143,46 @@ select {
 .error {
   color: var(--accent);
   padding: 20px;
+}
+
+/* PAGINATION */
+
+.pagination {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 25px 0 10px;
+}
+
+.pagination button {
+  min-width: 110px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.pagination button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(59, 91, 129, 0.25);
+}
+
+.pagination button:disabled {
+  background: #cfcfcf;
+  color: #888;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.pagination span {
+  font-weight: 600;
+  color: var(--text2);
 }
 
 /* RESPONSIVE */

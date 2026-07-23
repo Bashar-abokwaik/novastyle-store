@@ -8,7 +8,17 @@ import type { User } from "../../../types";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import styles from "./users.module.css";
 
+interface UserResponse {
+  message: string;
+  users: User[];
+  total: number;
+  page: number;
+  pages: number;
+}
+
 export default function Users(): React.JSX.Element {
+  const [page, setPage] = React.useState(1);
+  const limit = 20; // Number of users per page
   // Get the authentication token from the Redux store to determine if the user is logged in.
   const token = useSelector((state: RootState) => state.auth.token);
   const navigate = useNavigate();
@@ -17,11 +27,11 @@ export default function Users(): React.JSX.Element {
     data: users,
     isLoading,
     error,
-  } = useQuery<User[], Error>({
-    queryKey: ["users"],
+  } = useQuery<UserResponse, Error>({
+    queryKey: ["users", page],
     queryFn: async () => {
-      const response = await userService.getAllUsers();
-      return (response as { users: User[] }).users;
+      const response = await userService.getAllUsers(page, limit);
+      return response as UserResponse;
     },
     enabled: !!token,
   });
@@ -53,7 +63,7 @@ export default function Users(): React.JSX.Element {
           </thead>
 
           <tbody>
-            {users?.map((user) => (
+            {users?.users.map((user) => (
               <tr key={user._id}>
                 <td>{user.name}</td>
 
@@ -89,6 +99,25 @@ export default function Users(): React.JSX.Element {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className={styles.pagination}>
+        <button
+          disabled={page === 1}
+          onClick={() => setPage((prev) => prev - 1)}
+        >
+          Previous
+        </button>
+
+        <span>
+          Page {page} of {users?.pages ?? 1}
+        </span>
+
+        <button
+          disabled={page === (users?.pages ?? 1)}
+          onClick={() => setPage((prev) => prev + 1)}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

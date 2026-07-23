@@ -15,32 +15,41 @@ interface categoryResponse {
 interface ProductsControlsProps {
   search: string;
   setSearch: (value: string) => void;
-  sort: string;
-  setSort: (value: string) => void;
+  priceSort: string;
+  setPriceSort: (value: string) => void;
+  nameSort: string;
+  setNameSort: (value: string) => void;
   categorySlug: string;
   mode?: "all" | "offers";
+  resetPage?: () => void; // Optional function to reset the page number
 }
 
 export default function ProductsControls({
   search,
   setSearch,
-  sort,
-  setSort,
+  priceSort,
+  setPriceSort,
+  nameSort,
+  setNameSort,
   categorySlug,
   mode = "all",
+  resetPage,
 }: ProductsControlsProps) {
+  const navigate = useNavigate();
+
+  // Fetch categories using React Query to populate the category filter dropdown. The query is keyed by "categories" and fetches all categories from the categoriesService.
   const { data: categories } = useQuery<categoryResponse, Error>({
     queryKey: ["categories"],
     queryFn: async (): Promise<categoryResponse> =>
       (await categoriesService.getAll()) as categoryResponse,
   });
 
-  const navigate = useNavigate();
-
   const basePath = mode === "offers" ? "/offers" : "/products";
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
+
+    resetPage?.(); // Call resetPage if it's provided
 
     if (value === "") {
       navigate(basePath);
@@ -49,9 +58,20 @@ export default function ProductsControls({
     }
   };
 
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>, sortType: "price" | "name") => {
+    const value = e.target.value;
+    if (sortType === "price") {
+      setPriceSort(value);
+    } else if (sortType === "name") {
+      setNameSort(value);
+    }
+    resetPage?.(); // Reset the page number to 1 when sort changes
+  };
+
+
   return (
     <div className={styles.controls}>
-      {/* 🔍 Search */}
+      {/* Search */}
       <input
         type="text"
         placeholder="Search products..."
@@ -60,10 +80,10 @@ export default function ProductsControls({
         className={styles.searchInput}
       />
 
-      {/* 🔽 Sort */}
+      {/* Sort by price */}
       <select
-        value={sort}
-        onChange={(e) => setSort(e.target.value)}
+        value={priceSort}
+        onChange={(e) => handleSortChange(e, "price")}
         className={styles.filterSelect}
       >
         <option value="">Sort By</option>
@@ -71,7 +91,18 @@ export default function ProductsControls({
         <option value="price-desc">Price: High to Low</option>
       </select>
 
-      {/* 🗂️ Category */}
+      {/* Sort by Name */}
+      <select
+        value={nameSort}
+        onChange={(e) => handleSortChange(e, "name")}
+        className={styles.filterSelect}
+      >
+        <option value="">Sort By Name</option>
+        <option value="name-asc">Name: A to Z</option>
+        <option value="name-desc">Name: Z to A</option>
+      </select>
+
+      {/* Category */}
       <select
         value={categorySlug}
         onChange={handleCategoryChange}

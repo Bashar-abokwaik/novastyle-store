@@ -2,10 +2,9 @@ import { api } from "./api/client";
 
 // The userService object provides methods for managing user-related operations.
 export const userService = {
-  
   // Retrieve all users (admin only)
-  getAllUsers: async () => {
-    return api.get("/user/admin", true);
+  getAllUsers: async (page: number, limit: number) => {
+    return api.get(`/user/admin?page=${page}&limit=${limit}`, true);
   },
 
   // Retrieve a user by their ID (admin only)
@@ -24,8 +23,8 @@ export const userService = {
   },
 
   // Retrieve the orders of the currently logged-in user
-  getUserOrders: async () => {
-    return api.get("/user/orders", true);
+  getUserOrders: async (page: number, limit: number) => {
+    return api.get(`/user/orders?page=${page}&limit=${limit}`, true);
   },
 
   // Retrieve the cart of the currently logged-in user
@@ -41,5 +40,5 @@ export const userService = {
   // Update the address of the currently logged-in user
   updateUserAddress: async (address: Record<string, string>) => {
     return api.put("/user/address", address, true);
-  }
+  },
 };

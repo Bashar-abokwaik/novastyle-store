@@ -6,7 +6,7 @@ import type { productTemplate } from "../../../types/index";
 import { productsService } from "../../../services/productsService";
 
 import styles from "./offers.module.css";
-import OffersCard from "./OffersCard";
+import ProductCard from "../../ProductsComp/ProductCard";
 import Placeholder from "../../UI/Placeholder/Placeholder";
 
 // Define the structure of the response expected from the offers API
@@ -41,7 +41,7 @@ export default function Offers() {
               ?.products ?? [])
               .slice(0, 4)
               .map((product) => (
-                <OffersCard key={String(product._id)} product={product} />
+                <ProductCard key={String(product._id)} product={product} />
               ))}
       </div>
       <div className={styles.viewAllContainer}>

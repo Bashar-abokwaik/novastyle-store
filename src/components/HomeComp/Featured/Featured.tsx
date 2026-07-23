@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 import { productsService } from "../../../services/productsService";
@@ -13,24 +13,36 @@ import type { productTemplate } from "../../../types";
 interface FeaturedResponse {
   message: string;
   products: productTemplate[];
+  total: number;
+  page: number;
+  pages: number;
 }
 
 export default function Featured() {
   // Use React Query to fetch featured products data from the API
   const {
-    data: featuredProducts,
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     error,
     isLoading,
-  } = useQuery<FeaturedResponse, Error>({
+  } = useInfiniteQuery<FeaturedResponse, Error>({
     queryKey: ["featuredProducts"],
-    queryFn: async (): Promise<FeaturedResponse> =>
-      (await productsService.getFeatured()) as FeaturedResponse,
+    initialPageParam: 1,
+    queryFn: async ({ pageParam }): Promise<FeaturedResponse> =>
+      (await productsService.getFeatured(pageParam as number, 8)) as FeaturedResponse,
+    getNextPageParam: (lastPage: FeaturedResponse) =>
+      lastPage.page < lastPage.pages ? lastPage.page + 1 : undefined,
   });
 
+  const featuredProducts = data?.pages.flatMap((page) => page.products) ?? [];
   const navigate = useNavigate();
 
   // Handler for clicking on a product card, navigates to the product's page
-  const handleViewDetails = (productId: string | number | boolean | object | undefined) => {
+  const handleViewDetails = (
+    productId: string | number | boolean | object | undefined,
+  ) => {
     navigate(`/products/${productId}`);
   };
 
@@ -40,11 +52,11 @@ export default function Featured() {
 
       <div className={styles.grid}>
         {isLoading &&
-          Array.from({ length: 6 }).map((_, i) => (
+          Array.from({ length: 8 }).map((_, i) => (
             <Placeholder key={i} hasActions={1} />
           ))}
         {!isLoading &&
-          featuredProducts?.products?.map((product) => (
+          featuredProducts.map((product) => (
             <div key={product._id as React.Key} className={styles.card}>
               <img src={product.imageUrl} alt={product.title} />
 
@@ -62,6 +74,13 @@ export default function Featured() {
             </div>
           ))}
       </div>
+      {hasNextPage && (
+        <div className={styles.loadMore}>
+          <Button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+            {isFetchingNextPage ? "Loading..." : "View More"}
+          </Button>
+        </div>
+      )}
       {error && <p>{error.message}</p>}
     </section>
   );

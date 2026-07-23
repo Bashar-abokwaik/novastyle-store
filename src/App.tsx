@@ -139,7 +139,7 @@ const router = createBrowserRouter([
       },
       {
         path: "products",
-        element: <Products />,
+        element: <Products key="products" />,
       },
       {
         path: "products/category/:slug",
@@ -151,7 +151,7 @@ const router = createBrowserRouter([
       },
       {
         path: "offers",
-        element: <Products mode="offers" />,
+        element: <Products mode="offers" key="offers" />,
       },
       {
         path: "offers/category/:slug",

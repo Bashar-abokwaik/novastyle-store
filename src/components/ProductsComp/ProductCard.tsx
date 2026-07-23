@@ -10,7 +10,7 @@ import styles from "./products.module.css";
 
 interface RootState {
   auth: {
-      token: string;
+    token: string;
   };
 }
 
@@ -23,6 +23,7 @@ export default function ProductCard({ product }: { product: productTemplate }) {
 
   // Access the authentication token from the Redux store
   const token = useSelector((state: RootState) => state.auth.token);
+
   // Handler for adding a product to the cart. If the user is not authenticated, they are redirected to the login page.
   const handleAddToCart = async () => {
     if (!token) {
@@ -34,26 +35,55 @@ export default function ProductCard({ product }: { product: productTemplate }) {
     setLoading(false);
   };
 
-
   const handleViewDetails = () => {
     navigate(`/products/${product._id}`);
   };
+
+  // Check if the product has a discount
+  const hasDiscount = (product.discount ?? 0) > 0;
+
+  const finalPrice = hasDiscount
+    ? product.price - (product.price * product.discount!) / 100
+    : product.price;
+
   return (
     <div className={styles.card}>
       <img src={product.imageUrl} alt={product.title} />
+      {hasDiscount && (
+        <span className={styles.saleBadge}>{product.discount}% OFF</span>
+      )}
 
       <div className={styles.cardBody}>
-        <h3 className={styles.productsTitle}>{product.title}</h3>
-        <p className={styles.price}>${product.price.toFixed(2)}</p>
-        <p className={styles.description}>
-          {product.description.slice(0, 30)}
-          {product.description.length > 30 ? "..." : ""}
-        </p>
+        <h3 className={styles.cardTitle}>{product.title}</h3>
+
+        <p className={styles.description}>{product.description}</p>
+
+        <div className={styles.priceSection}>
+          {hasDiscount ? (
+            <>
+              <span className={styles.oldPrice}>
+                ${product.price.toFixed(2)}
+              </span>
+
+              <span className={styles.newPrice}>${finalPrice.toFixed(2)}</span>
+
+              <span className={styles.discountBadge}>-{product.discount}%</span>
+            </>
+          ) : (
+            <span className={styles.price}>${product.price.toFixed(2)}</span>
+          )}
+        </div>
+
         <div className={styles.cardActions}>
           <Button variant="primary" onClick={handleViewDetails}>
             View Details
           </Button>
-          <Button variant="secondary" onClick={handleAddToCart} disabled={loading}>
+
+          <Button
+            variant="secondary"
+            onClick={handleAddToCart}
+            disabled={loading}
+          >
             {loading ? "Adding..." : "Add to Cart"}
           </Button>
         </div>
