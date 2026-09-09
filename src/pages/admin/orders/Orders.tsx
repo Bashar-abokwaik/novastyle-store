@@ -7,7 +7,8 @@ import { orderService } from "../../../services/orderService";
 import type { Order } from "../../../types";
 
 import Spinner from "../../../components/UI/Spinner/Spinner";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import ConfirmDialog from "../../../components/common/ConfirmDialog";
 
 // OrderResponse interface defines the structure of the response received when fetching all orders, including a message and an array of Order objects.
 interface OrderResponse {
@@ -22,6 +23,10 @@ export default function AdminOrders() {
   // Initialize the query client and navigation hook from React Router.
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  // Create a reference for the confirmation dialog and a state variable to hold the ID of the order to be cancelled.
+  const confirmDialogRef = useRef<HTMLDialogElement>(null);
+  const [orderToCancel, setOrderToCancel] = useState<string | null>(null);
 
   const [page, setPage] = useState(1);
   const limit = 10; // Number of orders per page
@@ -51,9 +56,8 @@ export default function AdminOrders() {
     },
   });
 
-  // Use the useMutation hook to handle deleting an order. On success, it invalidates the relevant queries to refresh the data.
-  const deleteMutation = useMutation({
-    mutationFn: (id: string) => orderService.adminDeleteOrder(id),
+  const cancelMutation = useMutation({
+    mutationFn: (id: string) => orderService.adminCancelOrder(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-orders", page] });
     },
@@ -82,13 +86,15 @@ export default function AdminOrders() {
 
           <tbody>
             {orders.map((order: Order) => (
-              <tr key={order._id}>
+              <tr
+                key={order._id}
+                className={
+                  order.status === "cancelled" ? styles.cancelledRow : ""
+                }
+              >
                 <td>{order._id.slice(0, 8)}...</td>
-
                 <td>{order.userId?.email}</td>
-
                 <td>${order.totalAmount}</td>
-
                 <td>
                   <select
                     className={styles.statusSelect}
@@ -104,18 +110,24 @@ export default function AdminOrders() {
                     <option value="processing">Processing</option>
                     <option value="shipped">Shipped</option>
                     <option value="delivered">Delivered</option>
-                    <option value="cancelled">Cancelled</option>
+                    {order.status === "cancelled" && (
+                      <option value="cancelled">Cancelled</option>
+                    )}
                   </select>
                 </td>
-
                 <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-
                 <td className={styles.actions}>
                   <button
-                    className={`${styles.actionButton} ${styles.deleteButton}`}
-                    onClick={() => deleteMutation.mutate(order._id)}
+                    className={`${styles.actionButton} ${styles.cancelButton}`}
+                    disabled={order.status === "cancelled"}
+                    onClick={() => {
+                      setOrderToCancel(order._id);
+                      confirmDialogRef.current?.showModal();
+                    }}
                   >
-                    Delete
+                    {order.status === "cancelled"
+                      ? "Cancelled"
+                      : "Cancel Order"}
                   </button>
                   <button
                     className={styles.actionButton}
@@ -145,6 +157,16 @@ export default function AdminOrders() {
           Next
         </button>
       </div>
+      <ConfirmDialog
+        ref={confirmDialogRef}
+        title="Cancel Order"
+        message="Are you sure you want to cancel this order?"
+        onConfirm={() => {
+          if (orderToCancel) {
+            cancelMutation.mutate(orderToCancel);
+          }
+        }}
+      />
     </div>
   );
 }

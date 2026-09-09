@@ -25,10 +25,6 @@ export const orderService = {
   getOrderById: async (orderId: string) => {
     return api.get(`/orders/${orderId}`, true);
   },
-  // Cancel an order by its ID
-  cancelOrder: async (orderId: string) => {
-    return api.put(`/orders/${orderId}/cancel`, {}, true);
-  },
 
   // Retrieve all orders (admin)
   adminGetAllOrders: async (page: number, limit: number) => {
@@ -38,21 +34,24 @@ export const orderService = {
   adminUpdateOrderStatus: async (orderId: string, status: string) => {
     return api.put(`/orders/admin/${orderId}/status`, { status }, true);
   },
+  // Cancel an order by its ID (admin)
+  adminCancelOrder: async (orderId: string) => {
+    return api.put(`/orders/admin/${orderId}/cancel`, {}, true);
+  },
+
   // Retrieve orders by date range (admin)
   adminGetOrdersByDateRange: async (startDate: string, endDate: string) => {
     return api.get(
-      `/orders/admin?startDate=${startDate}&endDate=${endDate}`,
+      `/orders/admin/date-range?startDate=${startDate}&endDate=${endDate}`,
       true,
     );
   },
+  
   // Retrieve orders by user ID (admin)
   adminGetOrdersByUserId: async (userId: string) => {
     return api.get(`/orders/admin/user/${userId}`, true);
   },
-  // Delete an order by its ID (admin)
-  adminDeleteOrder: async (orderId: string) => {
-    return api.delete(`/orders/admin/${orderId}`, true);
-  },
+
   // Retrieve an order by its ID (admin)
   adminGetOrderById: async (orderId: string) => {
     return api.get(`/orders/admin/${orderId}`, true);
